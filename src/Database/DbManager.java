@@ -6,15 +6,12 @@ import java.util.List;
 
 public class DbManager {
     public Connection con;
-    PreparedStatement stmt = null;
-
 
     public void save(List<ProfessorUI> arrayProfessor) throws SQLException {
         connect();
         insert(arrayProfessor);
-        disconnect();
+//        disconnect();
     }
-
     public boolean connect() throws SQLException {
         if (con != null) {
             return true;
@@ -34,14 +31,13 @@ public class DbManager {
         }
         return true;
     }
-
     private void insert(List<ProfessorUI> arrayProfessor) throws SQLException {
         // TODO Save Professor
         String sqlProfessor="";
         sqlProfessor = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,professorNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
         for (int i = 0; i < arrayProfessor.size() ; i++) {
             ProfessorUI professor = arrayProfessor.get(i);
-            stmt = con.prepareStatement(sqlProfessor);
+            PreparedStatement stmt = con.prepareStatement(sqlProfessor);
             stmt.setString(1, professor.getFirstName());
             stmt.setString(2, professor.getLastName());
             stmt.setString(3, professor.getProfessorNo());
@@ -62,15 +58,14 @@ public class DbManager {
         System.out.println("Save");
 
     }
-
-    public void disconnect() {
-        if (con != null) {
-            try {
-                con.close();
-                System.out.println("Disconnected");
-            } catch (SQLException e) {
-                System.out.println("Could not disconect");
-            }
-        }
-    }
+//    public void disconnect() {
+//        if (con != null) {
+//            try {
+//                con.close();
+//                System.out.println("Disconnected");
+//            } catch (SQLException e) {
+//                System.out.println("Could not disconnect");
+//            }
+//        }
+//    }
 }
