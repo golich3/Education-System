@@ -1,7 +1,10 @@
 package AdminView;
 
+import Professor.ProfessorUI;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
@@ -16,12 +19,12 @@ public class ToolBar extends JToolBar implements ActionListener {
 		setBorder(BorderFactory.createEtchedBorder());
 		setFloatable(true);
 		saveButton = new JButton();
-		saveButton.setIcon(Utils.createIcon("/images/Save16.gif"));
+//		saveButton.setIcon(Utils.createIcon("/resources/icons/Save16.gif"));
 		saveButton.setToolTipText("Save To DataBase");
 
 		refreshButton = new JButton();
 		refreshButton.setToolTipText("Refresh Data");
-		refreshButton.setIcon(Utils.createIcon("/images/Refresh16.gif"));
+//		refreshButton.setIcon(Utils.createIcon("/resources/icons/Refresh16.gif"));
 
 		saveButton.addActionListener(this);
 		refreshButton.addActionListener(this);

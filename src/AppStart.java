@@ -1,8 +1,5 @@
 import javax.swing.SwingUtilities;
 
-import AdminView.MainFrame;
-
-
 public class AppStart {
 
 	public static void main(String[] args) {

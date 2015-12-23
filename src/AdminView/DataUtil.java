@@ -1,7 +1,6 @@
 package AdminView;
 
 import java.util.ArrayList;
-
 import Professor.ProfessorUI;
 
 public class DataUtil {

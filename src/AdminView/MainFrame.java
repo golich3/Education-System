@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -17,10 +18,10 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
-
 import Course.CourseUI;
 import Professor.ProfessorUI;
 import Student.StudentUI;
+import Controller.Controller;
 
 public class MainFrame extends JFrame {
 
@@ -36,14 +37,17 @@ public class MainFrame extends JFrame {
 	private List<ProfessorUI> arrayProfessor;
 	private List<CourseUI> arrayCourse;
 	private ToolBar toolBar;
+	private Controller controller;
 
 	public MainFrame() {
-		super("Educational System");
+		super("Education System");
 		setBounds(700, 200, 900, 700);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setJMenuBar(createMenu());
+
+		controller = new Controller();
 
 		arrayStudent = new ArrayList<StudentUI>();
 		arrayProfessor = new ArrayList<ProfessorUI>();
@@ -57,8 +61,13 @@ public class MainFrame extends JFrame {
 		professorFormPanel = new ProfessorFormPanel();
 		professorTablePanel = new ProfessorTablePanel();
 		toolBar = new ToolBar();
-		// studentFormPanel.setVisible(false);
-		// studentTablePanel.setVisible(false);
+//		studentFormPanel.setVisible(false);
+//		studentTablePanel.setVisible(false);
+
+
+		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,professorFormPanel, professorTablePanel);
+		splitPane.setOneTouchExpandable(true);
+		tabedPanel.add("Professor", splitPane);
 
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, studentFormPanel,studentTablePanel);
 		splitPane.setOneTouchExpandable(true);
@@ -68,9 +77,6 @@ public class MainFrame extends JFrame {
 		splitPane.setOneTouchExpandable(true);
 		tabedPanel.add("Course", splitPane);
 
-		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,professorFormPanel, professorTablePanel);
-		splitPane.setOneTouchExpandable(true);
-		tabedPanel.add("Professor", splitPane);
 
 		studentFormPanel.setiStudet(new IStudent() {
 			@Override
@@ -104,12 +110,18 @@ public class MainFrame extends JFrame {
 		toolBar.setToolbarListener(new ToolbarListener() {
 			@Override
 			public void saveEventOccured() {
-				System.out.println("Saved");
+				try {
+					controller.save(arrayProfessor);
+					} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
 			}
 
 			@Override
 			public void refreshEventOccured() {
-				System.out.println("Refreshed");
+
 			}
 		});
 
@@ -126,7 +138,7 @@ public class MainFrame extends JFrame {
 				arrayProfessor.remove(row);
 			}
 		});
-		
+
 		courseTablePanel.setCourseTableListener(new tablePanelListener() {
 			@Override
 			public void tableRowDeleted(int row) {
@@ -192,16 +204,11 @@ public class MainFrame extends JFrame {
 
 		studentPage.setSelected(false);
 
-		saveToDB.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-				ActionEvent.CTRL_MASK));
-		loadFromDB.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
-				ActionEvent.CTRL_MASK));
-		RefExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-				ActionEvent.CTRL_MASK));
-		setDbData.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
-				ActionEvent.CTRL_MASK));
-		changeTheme.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
-				ActionEvent.CTRL_MASK));
+		saveToDB.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,ActionEvent.CTRL_MASK));
+		loadFromDB.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,ActionEvent.CTRL_MASK));
+		RefExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,ActionEvent.CTRL_MASK));
+		setDbData.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,ActionEvent.CTRL_MASK));
+		changeTheme.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,ActionEvent.CTRL_MASK));
 
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		loadFromDB.setMnemonic(KeyEvent.VK_L);
