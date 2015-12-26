@@ -2,6 +2,7 @@ package Database;
 import Professor.ProfessorUI;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DbManager {
@@ -33,12 +34,17 @@ public class DbManager {
     }
     private void insert(List<ProfessorUI> arrayProfessor) throws SQLException {
         // TODO Save Professor
-        String SQLCheckCommand = "select ProfessorNo from [JavaTraining].[dbo].[M2.Professor]";
-        PreparedStatement checkStm = con.prepareStatement(SQLCheckCommand);
-        ResultSet resultSet = checkStm.executeQuery() ;
+
+        String SQLCheckCommand = "select professorNo from [JavaTraining].[dbo].[M2.Professor]";
+        Statement checkStm = con.createStatement();
+        ResultSet rs = checkStm.executeQuery(SQLCheckCommand);
+        ArrayList<String> professorNumbers = new ArrayList<>() ;
+        while(rs.next()){
+           String professorNo = rs.getString("professorNo");
+            professorNumbers.add(professorNo);
+        }
         String sqlProfessor = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,professorNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
-        for (int i = 0; i < arrayProfessor.size() ; i++) {
-            ProfessorUI professor = arrayProfessor.get(i);
+        for (ProfessorUI professor : arrayProfessor) {
             PreparedStatement stmt = con.prepareStatement(sqlProfessor);
             stmt.setString(1, professor.getFirstName());
             stmt.setString(2, professor.getLastName());
@@ -48,9 +54,8 @@ public class DbManager {
             stmt.setString(6, professor.getAddress());
             stmt.setString(7, professor.getUserName());
             stmt.setString(8, professor.getPassword());
-            for (int j = 0; j < resultSet.getFetchSize() ; j++) {
-                resultSet.next();
-                if (professor.getProfessorNo() == resultSet.getNString(j)){
+           {
+                if (professor.getProfessorNo().equals(rs.getString("professorNo"))){
                     break;
                 }
             }
