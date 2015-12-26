@@ -12,7 +12,7 @@ public class ProfessorTableModel extends AbstractTableModel {
 	
 	List<ProfessorUI> arrayProfessor;
 	
-	private String[] s = { "First Name", "Last Name", "Student NO", "Phone",
+	private String[] s = { "First Name", "Last Name", "Professr NO", "Phone",
 			"Email", "User Name", "Password", "Address" };
 
 	ProfessorTableModel(){

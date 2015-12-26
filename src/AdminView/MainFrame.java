@@ -119,6 +119,8 @@ public class MainFrame extends JFrame {
 				}
 			}
 
+
+
 			@Override
 			public void refreshEventOccured() {
 
