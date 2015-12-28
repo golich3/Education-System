@@ -1,4 +1,5 @@
 package Database;
+
 import Professor.ProfessorUI;
 
 import java.sql.*;
@@ -13,6 +14,7 @@ public class DbManager {
         insert(arrayProfessor);
 //        disconnect();
     }
+
     public boolean connect() throws SQLException {
         if (con != null) {
             return true;
@@ -32,15 +34,16 @@ public class DbManager {
         }
         return true;
     }
+
     private void insert(List<ProfessorUI> arrayProfessor) throws SQLException {
         // TODO Save Professor
 
         String ProfNoSQLCommand = "select professorNo from [JavaTraining].[dbo].[M2.Professor]";
         Statement ProfNoStmt = con.createStatement();
         ResultSet profNoResultSet = ProfNoStmt.executeQuery(ProfNoSQLCommand);
-        ArrayList<String> professorNumbers = new ArrayList<>() ;
-        while(profNoResultSet.next()){
-           String professorNo = profNoResultSet.getString("professorNo");
+        ArrayList<String> professorNumbers = new ArrayList<>();
+        while (profNoResultSet.next()) {
+            String professorNo = profNoResultSet.getString("professorNo");
             professorNumbers.add(professorNo);
         }
         String sqlProfessor = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,professorNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
@@ -55,11 +58,9 @@ public class DbManager {
             stmt.setString(7, professor.getUserName());
             stmt.setString(8, professor.getPassword());
 
-                if (professorNumbers.contains(professor.getProfessorNo())){
-                    continue;
-                }
-
-
+            if (professorNumbers.contains(professor.getProfessorNo())) {
+                continue;
+            }
             stmt.execute();
             System.out.println("Save");
         }
