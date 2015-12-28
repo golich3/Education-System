@@ -35,12 +35,12 @@ public class DbManager {
     private void insert(List<ProfessorUI> arrayProfessor) throws SQLException {
         // TODO Save Professor
 
-        String SQLCheckCommand = "select professorNo from [JavaTraining].[dbo].[M2.Professor]";
-        Statement checkStm = con.createStatement();
-        ResultSet rs = checkStm.executeQuery(SQLCheckCommand);
+        String ProfNoSQLCommand = "select professorNo from [JavaTraining].[dbo].[M2.Professor]";
+        Statement ProfNoStmt = con.createStatement();
+        ResultSet profNoResultSet = ProfNoStmt.executeQuery(ProfNoSQLCommand);
         ArrayList<String> professorNumbers = new ArrayList<>() ;
-        while(rs.next()){
-           String professorNo = rs.getString("professorNo");
+        while(profNoResultSet.next()){
+           String professorNo = profNoResultSet.getString("professorNo");
             professorNumbers.add(professorNo);
         }
         String sqlProfessor = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,professorNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
@@ -54,13 +54,14 @@ public class DbManager {
             stmt.setString(6, professor.getAddress());
             stmt.setString(7, professor.getUserName());
             stmt.setString(8, professor.getPassword());
-           {
-                if (professor.getProfessorNo().equals(rs.getString("professorNo"))){
-                    break;
+
+                if (professorNumbers.contains(professor.getProfessorNo())){
+                    continue;
                 }
-            }
+
 
             stmt.execute();
+            System.out.println("Save");
         }
         // TODO Save Student
 //        String sqlStudent = "INSERT INTO [JavaTraining].[dbo].[SimpleCalculator]  "+ "VALUES (" + result + ",getdate()" + ")";
@@ -69,7 +70,7 @@ public class DbManager {
 
 //        stmt.executeUpdate(sqlStudent);
 //        stmt.executeUpdate(sqlCourse);
-        System.out.println("Save");
+
 
     }
 //    public void disconnect() {
