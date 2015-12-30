@@ -1,6 +1,8 @@
 package Database;
 
+import Course.CourseUI;
 import Professor.ProfessorUI;
+import Student.StudentUI;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class DbManager {
         return true;
     }
 
-    private void insert(List<ProfessorUI> arrayProfessor) throws SQLException {
+    private void insert(List<ProfessorUI> arrayProfessor,List<StudentUI> arrayStudent,List<CourseUI> arrayCourse) throws SQLException {
         // TODO Save Professor
 
         String ProfNoSQLCommand = "select professorNo from [JavaTraining].[dbo].[M2.Professor]";
@@ -46,9 +48,9 @@ public class DbManager {
             String professorNo = profNoResultSet.getString("professorNo");
             professorNumbers.add(professorNo);
         }
-        String sqlProfessor = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,professorNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
+        String InsertProfessor = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,professorNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
         for (ProfessorUI professor : arrayProfessor) {
-            PreparedStatement stmt = con.prepareStatement(sqlProfessor);
+            PreparedStatement stmt = con.prepareStatement(InsertProfessor);
             stmt.setString(1, professor.getFirstName());
             stmt.setString(2, professor.getLastName());
             stmt.setString(3, professor.getProfessorNo());
@@ -65,7 +67,32 @@ public class DbManager {
             System.out.println("Save");
         }
         // TODO Save Student
-//        String sqlStudent = "INSERT INTO [JavaTraining].[dbo].[SimpleCalculator]  "+ "VALUES (" + result + ",getdate()" + ")";
+        String studentNoSQLCommand = "select studentNo from [JavaTraining].[dbo].[M2.student]";
+        Statement studentNoStmt = con.createStatement();
+        ResultSet studentNoResultSet = studentNoStmt.executeQuery(studentNoSQLCommand);
+        ArrayList<String> studentNumbers = new ArrayList<>();
+        while (studentNoResultSet.next()) {
+            String studentNo = profNoResultSet.getString("studentNo");
+            professorNumbers.add(studentNo);
+        }
+        String InsertStudent = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,studentNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
+        for (StudentUI student : arrayProfessor) {
+            PreparedStatement stmt = con.prepareStatement(InsertStudent);
+            stmt.setString(1, student.getFirstName());
+            stmt.setString(2, student.getLastName());
+            stmt.setString(3, student.getStudentNo());
+            stmt.setString(4, student.getPhone());
+            stmt.setString(5, student.getEmail());
+            stmt.setString(6, student.getAddress());
+            stmt.setString(7, student.getUserName());
+            stmt.setString(8, student.getPassword());
+
+            if (studentNumbers.contains(student.getStudentNo())) {
+                continue;
+            }
+            stmt.execute();
+            System.out.println("Save");
+        }
         // TODO Save Course
 //        String sqlCourse = "INSERT INTO [JavaTraining].[dbo].[SimpleCalculator]  "+ "VALUES (" + result + ",getdate()" + ")";
 
