@@ -11,9 +11,9 @@ import java.util.List;
 public class DbManager {
     public Connection con;
 
-    public void save(List<ProfessorUI> arrayProfessor) throws SQLException {
+    public void save(List<ProfessorUI> arrayProfessor,List<StudentUI> arrayStudent,List<CourseUI> arrayCource) throws SQLException {
         connect();
-        insert(arrayProfessor);
+        insert(arrayProfessor,arrayStudent,arrayCource);
 //        disconnect();
     }
 
@@ -50,20 +50,20 @@ public class DbManager {
         }
         String InsertProfessor = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,professorNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
         for (ProfessorUI professor : arrayProfessor) {
-            PreparedStatement stmt = con.prepareStatement(InsertProfessor);
-            stmt.setString(1, professor.getFirstName());
-            stmt.setString(2, professor.getLastName());
-            stmt.setString(3, professor.getProfessorNo());
-            stmt.setString(4, professor.getPhone());
-            stmt.setString(5, professor.getEmail());
-            stmt.setString(6, professor.getAddress());
-            stmt.setString(7, professor.getUserName());
-            stmt.setString(8, professor.getPassword());
+            PreparedStatement insertProfessorStatement = con.prepareStatement(InsertProfessor);
+            insertProfessorStatement.setString(1, professor.getFirstName());
+            insertProfessorStatement.setString(2, professor.getLastName());
+            insertProfessorStatement.setString(3, professor.getProfessorNo());
+            insertProfessorStatement.setString(4, professor.getPhone());
+            insertProfessorStatement.setString(5, professor.getEmail());
+            insertProfessorStatement.setString(6, professor.getAddress());
+            insertProfessorStatement.setString(7, professor.getUserName());
+            insertProfessorStatement.setString(8, professor.getPassword());
 
             if (professorNumbers.contains(professor.getProfessorNo())) {
                 continue;
             }
-            stmt.execute();
+            insertProfessorStatement.execute();
             System.out.println("Save");
         }
         // TODO Save Student
@@ -72,25 +72,25 @@ public class DbManager {
         ResultSet studentNoResultSet = studentNoStmt.executeQuery(studentNoSQLCommand);
         ArrayList<String> studentNumbers = new ArrayList<>();
         while (studentNoResultSet.next()) {
-            String studentNo = profNoResultSet.getString("studentNo");
-            professorNumbers.add(studentNo);
+            String studentNo = studentNoResultSet.getString("studentNo");
+            studentNumbers.add(studentNo);
         }
-        String InsertStudent = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,studentNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
-        for (StudentUI student : arrayProfessor) {
-            PreparedStatement stmt = con.prepareStatement(InsertStudent);
-            stmt.setString(1, student.getFirstName());
-            stmt.setString(2, student.getLastName());
-            stmt.setString(3, student.getStudentNo());
-            stmt.setString(4, student.getPhone());
-            stmt.setString(5, student.getEmail());
-            stmt.setString(6, student.getAddress());
-            stmt.setString(7, student.getUserName());
-            stmt.setString(8, student.getPassword());
+        String InsertStudent = "insert into[JavaTraining].[dbo].[M2.Student] (firstName,lastName,studentNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
+        for (StudentUI student : arrayStudent) {
+            PreparedStatement insertStudentStatement = con.prepareStatement(InsertStudent);
+            insertStudentStatement.setString(1, student.getFirstName());
+            insertStudentStatement.setString(2, student.getLastName());
+            insertStudentStatement.setString(3, student.getStudentNo());
+            insertStudentStatement.setString(4, student.getPhone());
+            insertStudentStatement.setString(5, student.getEmail());
+            insertStudentStatement.setString(6, student.getAddress());
+            insertStudentStatement.setString(7, student.getUserName());
+            insertStudentStatement.setString(8, student.getPassword());
 
             if (studentNumbers.contains(student.getStudentNo())) {
                 continue;
             }
-            stmt.execute();
+            insertStudentStatement.execute();
             System.out.println("Save");
         }
         // TODO Save Course

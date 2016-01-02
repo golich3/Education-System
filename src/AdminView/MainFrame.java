@@ -111,7 +111,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void saveEventOccured() {
 				try {
-					controller.save(arrayProfessor);
+					controller.save(arrayProfessor,arrayStudent,arrayCourse);
 					} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {

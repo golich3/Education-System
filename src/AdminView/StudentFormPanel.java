@@ -189,7 +189,7 @@ public class StudentFormPanel extends JPanel {
 				newStudent.setAddress(getAddressText().getText());
 				newStudent.setPhone(getPhoneText().getText());
 				newStudent.setEmail(getEmailText().getText());
-				newStudent.setPassword(getPasswordText().getPassword());
+				newStudent.setPassword(getPasswordText().getText());
 				newStudent.setUserName(getUserNameText().getText());
 			}
 		});

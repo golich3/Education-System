@@ -8,7 +8,7 @@ public class StudentUI {
 	String email;
 	String address;
 	String userName;
-	char[] password;
+	String password;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -51,12 +51,10 @@ public class StudentUI {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public char[] getPassword() {
+	public String getPassword() {
 		return password;
 	}
-	public void setPassword(char[] password) {
-		this.password = password;
-	}
+	public void setPassword(String password) {this.password = password;	}
 
 	public void selectCourse(){
 		System.out.println("Select Course");
