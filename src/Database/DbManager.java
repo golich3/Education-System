@@ -94,10 +94,27 @@ public class DbManager {
             System.out.println("Save");
         }
         // TODO Save Course
-//        String sqlCourse = "INSERT INTO [JavaTraining].[dbo].[SimpleCalculator]  "+ "VALUES (" + result + ",getdate()" + ")";
+        String courseNoSQLCommand = "select courseNo from [JavaTraining].[dbo].[M2.Course]";
+        Statement courseNoStmt = con.createStatement();
+        ResultSet courseNoResultSet = courseNoStmt.executeQuery(courseNoSQLCommand);
+        ArrayList<String> courseNumbers = new ArrayList<>();
+        while (courseNoResultSet.next()) {
+            String courseNo = courseNoResultSet.getString("courseNo");
+            courseNumbers.add(courseNo);
+        }
+        String InsertCourse = "insert into[JavaTraining].[dbo].[M2.Course] (CourseNo,CourseName,ProfessorName) VALUES (?,?,?)";
+        for (CourseUI course : arrayCourse) {
+            PreparedStatement insertCourseStatement = con.prepareStatement(InsertCourse);
+            insertCourseStatement.setString(1, course.getCourseNo());
+            insertCourseStatement.setString(2, course.getCourseName());
+            insertCourseStatement.setString(3, course.getProfessor());
 
-//        stmt.executeUpdate(sqlStudent);
-//        stmt.executeUpdate(sqlCourse);
+            if (courseNumbers.contains(course.getCourseNo())) {
+                continue;
+            }
+            insertCourseStatement.execute();
+            System.out.println("Save");
+        }
 
 
     }
