@@ -64,6 +64,7 @@ public class DbManager {
                 continue;
             }
             insertProfessorStatement.execute();
+
             System.out.println("Save");
         }
         // TODO Save Student
@@ -118,6 +119,7 @@ public class DbManager {
 
 
     }
+
 //    public void disconnect() {
 //        if (con != null) {
 //            try {
@@ -128,4 +130,22 @@ public class DbManager {
 //            }
 //        }
 //    }
+    public void loadTableData() throws SQLException {
+        String ProfListSQLCommand = "select * from [JavaTraining].[dbo].[M2.Professor]";
+        Statement ProfListStmt = con.createStatement();
+        ResultSet profListResultSet = ProfListStmt.executeQuery(ProfListSQLCommand);
+        ArrayList<ProfessorUI> professorList = new ArrayList<>();
+        while (profListResultSet.next()) {
+            String professorNo = profListResultSet.getString("professorNo");
+            String firstName = profListResultSet.getString("FirstName");
+            String lastName = profListResultSet.getString("LastName");
+            String email = profListResultSet.getString("Email");
+            String phone = profListResultSet.getString("Phone");
+            String userName = profListResultSet.getString("UserName");
+            String password = profListResultSet.getString("Password");
+            String adress = profListResultSet.getString("Adress");
+
+            professorList.add(professorNo);
+        }
+    }
 }

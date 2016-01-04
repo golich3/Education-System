@@ -18,4 +18,7 @@ public class Controller {
     public void save(List<ProfessorUI> arrayProfessor,List<StudentUI> arrayStudent,List<CourseUI> arrayCourse) throws SQLException, ClassNotFoundException {
         this.db.save(arrayProfessor,arrayStudent,arrayCourse);
     }
+    public void loadTableData(){
+    this.db.loadTableData();
+    }
 }

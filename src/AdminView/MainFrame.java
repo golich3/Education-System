@@ -64,6 +64,10 @@ public class MainFrame extends JFrame {
 //		studentFormPanel.setVisible(false);
 //		studentTablePanel.setVisible(false);
 
+		controller.loadTableData();
+		professorTablePanel.setModelDataSourse(arrayProfessor);
+		professorTablePanel.refreshTable();
+		courseFormPanel.addNewProfessorToProfessorComboBox(DataUtil.proffesorArray);
 
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,professorFormPanel, professorTablePanel);
 		splitPane.setOneTouchExpandable(true);
@@ -102,8 +106,7 @@ public class MainFrame extends JFrame {
 				arrayProfessor.add(newProfessorEnterance);
 				professorTablePanel.setModelDataSourse(arrayProfessor);
 				professorTablePanel.refreshTable();
-				courseFormPanel
-						.addNewProfessorToProfessorComboBox(DataUtil.proffesorArray);
+				courseFormPanel.addNewProfessorToProfessorComboBox(DataUtil.proffesorArray);
 			}
 		});
 
