@@ -120,32 +120,36 @@ public class DbManager {
 
     }
 
-//    public void disconnect() {
-//        if (con != null) {
-//            try {
-//                con.close();
-//                System.out.println("Disconnected");
-//            } catch (SQLException e) {
-//                System.out.println("Could not disconnect");
-//            }
-//        }
-//    }
-    public void loadTableData() throws SQLException {
+    public void disconnect() {
+        if (con != null) {
+            try {
+                con.close();
+                System.out.println("Disconnected");
+            } catch (SQLException e) {
+                System.out.println("Could not disconnect");
+            }
+        }
+    }
+    public ArrayList<ProfessorUI> loadTableData() throws SQLException {
+        connect();
         String ProfListSQLCommand = "select * from [JavaTraining].[dbo].[M2.Professor]";
         Statement ProfListStmt = con.createStatement();
         ResultSet profListResultSet = ProfListStmt.executeQuery(ProfListSQLCommand);
+        ProfessorUI newProfessor = new ProfessorUI();
         ArrayList<ProfessorUI> professorList = new ArrayList<>();
         while (profListResultSet.next()) {
-            String professorNo = profListResultSet.getString("professorNo");
-            String firstName = profListResultSet.getString("FirstName");
-            String lastName = profListResultSet.getString("LastName");
-            String email = profListResultSet.getString("Email");
-            String phone = profListResultSet.getString("Phone");
-            String userName = profListResultSet.getString("UserName");
-            String password = profListResultSet.getString("Password");
-            String adress = profListResultSet.getString("Adress");
-
-            professorList.add(professorNo);
+            newProfessor.setProfessorNo(profListResultSet.getString("ProfessorNo"));
+            newProfessor.setFirstName(profListResultSet.getString("FirstName"));
+            newProfessor.setLastName(profListResultSet.getString("LastName"));
+            newProfessor.setEmail(profListResultSet.getString("Email"));
+            newProfessor.setPhone(profListResultSet.getString("Phone"));
+            newProfessor.setUserName(profListResultSet.getString("UserName"));
+            newProfessor.setPassword(profListResultSet.getString("Password"));
+            newProfessor.setAddress(profListResultSet.getString("Address"));
+            professorList.add(newProfessor);
         }
+
+        return professorList;
+
     }
 }

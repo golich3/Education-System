@@ -6,6 +6,7 @@ import Professor.ProfessorUI;
 import Student.StudentUI;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -18,7 +19,8 @@ public class Controller {
     public void save(List<ProfessorUI> arrayProfessor,List<StudentUI> arrayStudent,List<CourseUI> arrayCourse) throws SQLException, ClassNotFoundException {
         this.db.save(arrayProfessor,arrayStudent,arrayCourse);
     }
-    public void loadTableData(){
-    this.db.loadTableData();
+    public List<ProfessorUI> loadTableData() throws SQLException {
+
+        return this.db.loadTableData();
     }
 }
