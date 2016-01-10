@@ -64,8 +64,7 @@ public class ProfessorTablePanel extends JPanel{
 		});
 	}
 	public void setModelDataSourse(List<ProfessorUI> arrayProfessor) {
-		professorTableModel.setDs(arrayProfessor);
-		
+		professorTableModel.setDataset(arrayProfessor);
 	}
 	public void refreshTable() {
 		professorTableModel.fireTableDataChanged();

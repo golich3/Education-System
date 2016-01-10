@@ -130,14 +130,15 @@ public class DbManager {
             }
         }
     }
+
     public ArrayList<ProfessorUI> loadTableData() throws SQLException {
         connect();
         String ProfListSQLCommand = "select * from [JavaTraining].[dbo].[M2.Professor]";
         Statement ProfListStmt = con.createStatement();
         ResultSet profListResultSet = ProfListStmt.executeQuery(ProfListSQLCommand);
-        ProfessorUI newProfessor = new ProfessorUI();
         ArrayList<ProfessorUI> professorList = new ArrayList<>();
         while (profListResultSet.next()) {
+            ProfessorUI newProfessor = new ProfessorUI();
             newProfessor.setProfessorNo(profListResultSet.getString("ProfessorNo"));
             newProfessor.setFirstName(profListResultSet.getString("FirstName"));
             newProfessor.setLastName(profListResultSet.getString("LastName"));
@@ -148,8 +149,6 @@ public class DbManager {
             newProfessor.setAddress(profListResultSet.getString("Address"));
             professorList.add(newProfessor);
         }
-
         return professorList;
-
     }
 }

@@ -127,20 +127,27 @@ public class ProfessorFormPanel extends JPanel {
 		addProfessorBtn.addActionListener(new ActionListener() {
 			String emptyHintHolder="";
 			String notMatchedFormatHintHolder="";
+			String isDuplicate="";
 			@Override
 			public void actionPerformed(ActionEvent in) {
 //				checknecessaryFieldsfilling();
 //				checkMatchFieldsFormat();
+				checkDuplicate();
 //				if (!emptyHintHolder.isEmpty()) {
 //					JOptionPane.showMessageDialog(ProfessorFormPanel.this, emptyHintHolder, "Necessary Fields did not fill", JOptionPane.OK_OPTION | JOptionPane.ERROR_MESSAGE);
-//				}else if (!notMatchedFormatHintHolder.isEmpty()) {
-//					JOptionPane.showMessageDialog(ProfessorFormPanel.this, notMatchedFormatHintHolder, "Incorect format", JOptionPane.OK_OPTION | JOptionPane.ERROR_MESSAGE);
-//				}else {					
+//				}
+//				else if (!notMatchedFormatHintHolder.isEmpty()) {
+//					JOptionPane.showMessageDialog(ProfessorFormPanel.this, notMatchedFormatHintHolder, "Incorrect format", JOptionPane.OK_OPTION | JOptionPane.ERROR_MESSAGE);
+//				}
+//				else
+				if (!isDuplicate.isEmpty()){
+					JOptionPane.showMessageDialog(ProfessorFormPanel.this, isDuplicate, "Duplicated Professor Number", JOptionPane.OK_OPTION | JOptionPane.ERROR_MESSAGE);
+				}else {
 					makeNewProffesor();
 					DataUtil.proffesorArray.add(newProfessor);
 					iProfessor.setProfessor(newProfessor);
 					EmptyProfessorForm();
-//				}
+				}
 			}
 			
 			public void checkMatchFieldsFormat() {
@@ -172,7 +179,16 @@ public class ProfessorFormPanel extends JPanel {
 					emptyHintHolder += "Password is empty";
 				}
 			}
-		
+
+			public void checkDuplicate() {
+				isDuplicate="";
+				for (int i = 0; i < DataUtil.proffesorArray.size(); i++) {
+					if (DataUtil.proffesorArray.get(i).getProfessorNo().equals(getProfessorNoText().getText())){
+						isDuplicate = "Professor number is duplicated";
+					}
+				}
+			}
+
 			public void EmptyProfessorForm() {
 				getProfessorNoText().setText(null);
 				getFirstNameText().setText(null);

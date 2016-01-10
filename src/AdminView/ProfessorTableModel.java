@@ -12,8 +12,7 @@ public class ProfessorTableModel extends AbstractTableModel {
 	
 	List<ProfessorUI> arrayProfessor;
 	
-	private String[] s = { "First Name", "Last Name", "Professr NO", "Phone",
-			"Email", "User Name", "Password", "Address" };
+	private String[] s = { "First Name", "Last Name", "Professr NO", "Phone","Email", "User Name", "Password", "Address" };
 
 	ProfessorTableModel(){
 		arrayProfessor = new ArrayList<ProfessorUI>();
@@ -60,7 +59,7 @@ public class ProfessorTableModel extends AbstractTableModel {
 	}
 
 
-	public void setDs(List<ProfessorUI> arrayProfessor) {
+	public void setDataset(List<ProfessorUI> arrayProfessor) {
 		this.arrayProfessor = arrayProfessor;
 	}
 

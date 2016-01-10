@@ -69,8 +69,11 @@ public class MainFrame extends JFrame {
 		tabedPanel.add("Professor", splitPane);
 
 		try {
+			arrayProfessor.addAll(controller.loadTableData());
+			DataUtil.proffesorArray.addAll(controller.loadTableData());
 			professorTablePanel.setModelDataSourse(controller.loadTableData());
 			professorTablePanel.refreshTable();
+			courseFormPanel.addNewProfessorToProfessorComboBox(DataUtil.proffesorArray);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
