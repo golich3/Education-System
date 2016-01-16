@@ -5,9 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Vector;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -132,7 +129,7 @@ public class ProfessorFormPanel extends JPanel {
 			public void actionPerformed(ActionEvent in) {
 //				checknecessaryFieldsfilling();
 //				checkMatchFieldsFormat();
-				checkDuplicate();
+				checkProfessorDuplication();
 //				if (!emptyHintHolder.isEmpty()) {
 //					JOptionPane.showMessageDialog(ProfessorFormPanel.this, emptyHintHolder, "Necessary Fields did not fill", JOptionPane.OK_OPTION | JOptionPane.ERROR_MESSAGE);
 //				}
@@ -180,7 +177,7 @@ public class ProfessorFormPanel extends JPanel {
 				}
 			}
 
-			public void checkDuplicate() {
+			public void checkProfessorDuplication() {
 				isDuplicate="";
 				for (int i = 0; i < DataUtil.proffesorArray.size(); i++) {
 					if (DataUtil.proffesorArray.get(i).getProfessorNo().equals(getProfessorNoText().getText())){

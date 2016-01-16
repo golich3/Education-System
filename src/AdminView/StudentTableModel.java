@@ -1,18 +1,14 @@
 package AdminView;
 
-import java.lang.reflect.Array;
 import java.util.*;
-
-import javax.swing.JPasswordField;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.text.PasswordView;
+
 
 import Student.StudentUI;
 
 public class StudentTableModel extends AbstractTableModel {
 
-	List<StudentUI> arrayStudent;
+	ArrayList<StudentUI> arrayStudent;
 
 	private String[] s = { "First Name", "Last Name", "Student NO", "Phone",
 			"Email", "User Name", "Password", "Address" };
@@ -60,7 +56,7 @@ public class StudentTableModel extends AbstractTableModel {
 		return null;
 	}
 
-	void setDs(List<StudentUI> arrayStudentEnterance) {
+	void setDs(ArrayList<StudentUI> arrayStudentEnterance) {
 		this.arrayStudent = arrayStudentEnterance;
 	}
 }

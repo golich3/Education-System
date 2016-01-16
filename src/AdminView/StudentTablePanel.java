@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
-
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -61,7 +60,7 @@ public class StudentTablePanel extends JPanel{
 		});
 		add(new JScrollPane(table), BorderLayout.CENTER);
 	}
-	void setModelDataSourse(List<StudentUI> st){
+	void setModelDataSourse(ArrayList<StudentUI> st){
 		studentTableModel.setDs(st);
 		
 	}

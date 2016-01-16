@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -33,9 +32,9 @@ public class MainFrame extends JFrame {
 	private CourseTablePanel courseTablePanel;
 	private ProfessorFormPanel professorFormPanel;
 	private ProfessorTablePanel professorTablePanel;
-	private List<StudentUI> arrayStudent;
-	private List<ProfessorUI> arrayProfessor;
-	private List<CourseUI> arrayCourse;
+	private ArrayList<StudentUI> arrayStudent;
+	private ArrayList<ProfessorUI> arrayProfessor;
+	private ArrayList<CourseUI> arrayCourse;
 	private ToolBar toolBar;
 	private Controller controller;
 
@@ -69,11 +68,12 @@ public class MainFrame extends JFrame {
 		tabedPanel.add("Professor", splitPane);
 
 		try {
-			arrayProfessor.addAll(controller.loadTableData());
-			DataUtil.proffesorArray.addAll(controller.loadTableData());
-			professorTablePanel.setModelDataSourse(controller.loadTableData());
+			arrayProfessor.addAll(controller.loadProfDBData());
+			DataUtil.proffesorArray.addAll(arrayProfessor);
+			professorTablePanel.setModelDataSourse(arrayProfessor);
 			professorTablePanel.refreshTable();
 			courseFormPanel.addNewProfessorToProfessorComboBox(DataUtil.proffesorArray);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -81,6 +81,16 @@ public class MainFrame extends JFrame {
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, studentFormPanel,studentTablePanel);
 		splitPane.setOneTouchExpandable(true);
 		tabedPanel.add("Student", splitPane);
+
+		try {
+			arrayStudent.addAll(controller.loadStudentDBData());
+			DataUtil.studentArray.addAll(arrayStudent);
+			studentTablePanel.setModelDataSourse(arrayStudent);
+			studentTablePanel.refreshTable();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, courseFormPanel,courseTablePanel);
 		splitPane.setOneTouchExpandable(true);

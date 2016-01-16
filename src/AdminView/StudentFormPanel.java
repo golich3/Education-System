@@ -121,6 +121,7 @@ public class StudentFormPanel extends JPanel {
 		addStudentBtn.addActionListener(new ActionListener() {
 			String emptyHintHolder="";
 			String notMatchedFormatHintHolder="";
+			String isDuplicate="";
 
 			@Override
 			public void actionPerformed(ActionEvent in) {
@@ -168,6 +169,15 @@ public class StudentFormPanel extends JPanel {
 				}if (getPasswordText().getPassword().length == 0) {
 					emptyHintHolder += "Password is empty";
 				}
+			}
+
+			public void checkStudentDuplication() {
+				isDuplicate="";
+//				for (int i = 0; i < DataUtil..size(); i++) {
+//					if (DataUtil.proffesorArray.get(i).getProfessorNo().equals(getProfessorNoText().getText())){
+//						isDuplicate = "Professor number is duplicated";
+//					}
+//				}
 			}
 
 			public void makeTableEmpty() {

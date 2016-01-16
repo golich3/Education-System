@@ -4,10 +4,8 @@ import Course.CourseUI;
 import Database.DbManager;
 import Professor.ProfessorUI;
 import Student.StudentUI;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Controller {
     DbManager db;
@@ -16,11 +14,14 @@ public class Controller {
         db = new DbManager();
     }
 
-    public void save(List<ProfessorUI> arrayProfessor,List<StudentUI> arrayStudent,List<CourseUI> arrayCourse) throws SQLException, ClassNotFoundException {
+    public void save(ArrayList<ProfessorUI> arrayProfessor,ArrayList<StudentUI> arrayStudent,ArrayList<CourseUI> arrayCourse) throws SQLException, ClassNotFoundException {
         this.db.save(arrayProfessor,arrayStudent,arrayCourse);
     }
 
-    public List<ProfessorUI> loadTableData() throws SQLException {
-        return this.db.loadTableData();
+    public ArrayList<ProfessorUI> loadProfDBData() throws SQLException {
+        return this.db.loadProfDBData();
+    }
+    public ArrayList<StudentUI> loadStudentDBData() throws SQLException {
+        return this.db.loadStudentDBData();
     }
 }

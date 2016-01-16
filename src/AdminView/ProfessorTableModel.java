@@ -1,16 +1,13 @@
 package AdminView;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
-
 import Professor.ProfessorUI;
 import Student.StudentUI;
 
 public class ProfessorTableModel extends AbstractTableModel {
 	
-	List<ProfessorUI> arrayProfessor;
+	ArrayList<ProfessorUI> arrayProfessor;
 	
 	private String[] s = { "First Name", "Last Name", "Professr NO", "Phone","Email", "User Name", "Password", "Address" };
 
@@ -59,7 +56,7 @@ public class ProfessorTableModel extends AbstractTableModel {
 	}
 
 
-	public void setDataset(List<ProfessorUI> arrayProfessor) {
+	public void setDataset(ArrayList<ProfessorUI> arrayProfessor) {
 		this.arrayProfessor = arrayProfessor;
 	}
 

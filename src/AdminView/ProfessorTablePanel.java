@@ -6,8 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
-
+import java.util.ArrayList;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -63,7 +62,7 @@ public class ProfessorTablePanel extends JPanel{
 			}
 		});
 	}
-	public void setModelDataSourse(List<ProfessorUI> arrayProfessor) {
+	public void setModelDataSourse(ArrayList<ProfessorUI> arrayProfessor) {
 		professorTableModel.setDataset(arrayProfessor);
 	}
 	public void refreshTable() {

@@ -3,15 +3,13 @@ package Database;
 import Course.CourseUI;
 import Professor.ProfessorUI;
 import Student.StudentUI;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DbManager {
     public Connection con;
 
-    public void save(List<ProfessorUI> arrayProfessor,List<StudentUI> arrayStudent,List<CourseUI> arrayCource) throws SQLException {
+    public void save(ArrayList<ProfessorUI> arrayProfessor,ArrayList<StudentUI> arrayStudent,ArrayList<CourseUI> arrayCource) throws SQLException {
         connect();
         insert(arrayProfessor,arrayStudent,arrayCource);
 //        disconnect();
@@ -37,16 +35,34 @@ public class DbManager {
         return true;
     }
 
-    private void insert(List<ProfessorUI> arrayProfessor,List<StudentUI> arrayStudent,List<CourseUI> arrayCourse) throws SQLException {
+    private void insert(ArrayList<ProfessorUI> arrayProfessor,ArrayList<StudentUI> arrayStudent,ArrayList<CourseUI> arrayCourse) throws SQLException {
         // TODO Save Professor
 
         String ProfNoSQLCommand = "select professorNo from [JavaTraining].[dbo].[M2.Professor]";
+        String profNoDelete = "delete from [JavaTraining].[dbo].[M2.Professor] where professorNo = ?";
         Statement ProfNoStmt = con.createStatement();
         ResultSet profNoResultSet = ProfNoStmt.executeQuery(ProfNoSQLCommand);
         ArrayList<String> professorNumbers = new ArrayList<>();
         while (profNoResultSet.next()) {
             String professorNo = profNoResultSet.getString("professorNo");
             professorNumbers.add(professorNo);
+        }
+
+        boolean contains;
+        for (int i = 0; i < professorNumbers.size(); i++) {
+            contains = false;
+            for (int j = 0; j < arrayProfessor.size(); j++) {
+                if (arrayProfessor.get(j).getProfessorNo().equals(professorNumbers.get(i))) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains) {
+                PreparedStatement deleteProfessorStatement = con.prepareStatement(profNoDelete);
+                deleteProfessorStatement.setString(1, professorNumbers.get(i));
+                deleteProfessorStatement.executeUpdate();
+                System.out.print("Professor deleted");
+            }
         }
         String InsertProfessor = "insert into[JavaTraining].[dbo].[M2.Professor] (firstName,lastName,professorNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
         for (ProfessorUI professor : arrayProfessor) {
@@ -65,16 +81,32 @@ public class DbManager {
             }
             insertProfessorStatement.execute();
 
-            System.out.println("Save");
+            System.out.println("Professor Saved");
         }
         // TODO Save Student
         String studentNoSQLCommand = "select studentNo from [JavaTraining].[dbo].[M2.student]";
+        String studentNoDelete = "delete from [JavaTraining].[dbo].[M2.Student] where studentNo = ?";
         Statement studentNoStmt = con.createStatement();
         ResultSet studentNoResultSet = studentNoStmt.executeQuery(studentNoSQLCommand);
         ArrayList<String> studentNumbers = new ArrayList<>();
         while (studentNoResultSet.next()) {
             String studentNo = studentNoResultSet.getString("studentNo");
             studentNumbers.add(studentNo);
+        }
+        for (int i = 0; i < studentNumbers.size(); i++) {
+            contains = false;
+            for (int j = 0; j < arrayStudent.size(); j++) {
+                if (arrayStudent.get(j).getStudentNo().equals(studentNumbers.get(i))) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains) {
+                PreparedStatement deleteStudentStatement = con.prepareStatement(studentNoDelete);
+                deleteStudentStatement.setString(1, studentNumbers.get(i));
+                deleteStudentStatement.executeUpdate();
+                System.out.print("Student deleted");
+            }
         }
         String InsertStudent = "insert into[JavaTraining].[dbo].[M2.Student] (firstName,lastName,studentNo,phone,email,address,userName,password) VALUES (?,?,?,?,?,?,?,?)";
         for (StudentUI student : arrayStudent) {
@@ -92,10 +124,11 @@ public class DbManager {
                 continue;
             }
             insertStudentStatement.execute();
-            System.out.println("Save");
+            System.out.println("Student Saved");
         }
         // TODO Save Course
         String courseNoSQLCommand = "select courseNo from [JavaTraining].[dbo].[M2.Course]";
+        String courseNoDelete = "delete from [JavaTraining].[dbo].[M2.Course] where CourseNo = ?";
         Statement courseNoStmt = con.createStatement();
         ResultSet courseNoResultSet = courseNoStmt.executeQuery(courseNoSQLCommand);
         ArrayList<String> courseNumbers = new ArrayList<>();
@@ -103,21 +136,34 @@ public class DbManager {
             String courseNo = courseNoResultSet.getString("courseNo");
             courseNumbers.add(courseNo);
         }
-        String InsertCourse = "insert into[JavaTraining].[dbo].[M2.Course] (CourseNo,CourseName,ProfessorName) VALUES (?,?,?)";
-        for (CourseUI course : arrayCourse) {
-            PreparedStatement insertCourseStatement = con.prepareStatement(InsertCourse);
-            insertCourseStatement.setString(1, course.getCourseNo());
-            insertCourseStatement.setString(2, course.getCourseName());
-            insertCourseStatement.setString(3, course.getProfessor());
-
-            if (courseNumbers.contains(course.getCourseNo())) {
-                continue;
-            }
-            insertCourseStatement.execute();
-            System.out.println("Save");
-        }
-
-
+//        for (int i = 0; i < courseNumbers.size(); i++) {
+//            contains = false;
+//            for (int j = 0; j < arrayCourse.size(); j++) {
+//                if (arrayCourse.get(j).getCourseNo().equals(courseNumbers.get(i))) {
+//                    contains = true;
+//                    break;
+//                }
+//            }
+//            if (!contains) {
+//                PreparedStatement deleteCourseStatement = con.prepareStatement(courseNoDelete);
+//                deleteCourseStatement.setString(1, studentNumbers.get(i));
+//                deleteCourseStatement.executeUpdate();
+//                System.out.print("Course deleted");
+//            }
+//        }
+//        String InsertCourse = "insert into[JavaTraining].[dbo].[M2.Course] (CourseNo,CourseName,ProfessorName) VALUES (?,?,?)";
+//        for (CourseUI course : arrayCourse) {
+//            PreparedStatement insertCourseStatement = con.prepareStatement(InsertCourse);
+//            insertCourseStatement.setString(1, course.getCourseNo());
+//            insertCourseStatement.setString(2, course.getCourseName());
+//            insertCourseStatement.setString(3, course.getProfessor());
+//
+//            if (courseNumbers.contains(course.getCourseNo())) {
+//                continue;
+//            }
+//            insertCourseStatement.execute();
+//            System.out.println("Save");
+//        }
     }
 
     public void disconnect() {
@@ -131,7 +177,7 @@ public class DbManager {
         }
     }
 
-    public ArrayList<ProfessorUI> loadTableData() throws SQLException {
+    public ArrayList<ProfessorUI> loadProfDBData() throws SQLException {
         connect();
         String ProfListSQLCommand = "select * from [JavaTraining].[dbo].[M2.Professor]";
         Statement ProfListStmt = con.createStatement();
@@ -150,5 +196,26 @@ public class DbManager {
             professorList.add(newProfessor);
         }
         return professorList;
+    }
+
+    public ArrayList<StudentUI> loadStudentDBData() throws SQLException {
+        connect();
+        String studentListSQLCommand = "select * from [JavaTraining].[dbo].[M2.Student]";
+        Statement studentListStmt = con.createStatement();
+        ResultSet studentListResultSet = studentListStmt.executeQuery(studentListSQLCommand);
+        ArrayList<StudentUI> studentList = new ArrayList<>();
+        while (studentListResultSet.next()) {
+            StudentUI newStudent = new StudentUI();
+            newStudent.setStudentNo(studentListResultSet.getString("studentNo"));
+            newStudent.setFirstName(studentListResultSet.getString("FirstName"));
+            newStudent.setLastName(studentListResultSet.getString("LastName"));
+            newStudent.setEmail(studentListResultSet.getString("Email"));
+            newStudent.setPhone(studentListResultSet.getString("Phone"));
+            newStudent.setUserName(studentListResultSet.getString("UserName"));
+            newStudent.setPassword(studentListResultSet.getString("Password"));
+            newStudent.setAddress(studentListResultSet.getString("Address"));
+            studentList.add(newStudent);
+        }
+        return studentList;
     }
 }
