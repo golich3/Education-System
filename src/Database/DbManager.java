@@ -136,34 +136,34 @@ public class DbManager {
             String courseNo = courseNoResultSet.getString("courseNo");
             courseNumbers.add(courseNo);
         }
-//        for (int i = 0; i < courseNumbers.size(); i++) {
-//            contains = false;
-//            for (int j = 0; j < arrayCourse.size(); j++) {
-//                if (arrayCourse.get(j).getCourseNo().equals(courseNumbers.get(i))) {
-//                    contains = true;
-//                    break;
-//                }
-//            }
-//            if (!contains) {
-//                PreparedStatement deleteCourseStatement = con.prepareStatement(courseNoDelete);
-//                deleteCourseStatement.setString(1, studentNumbers.get(i));
-//                deleteCourseStatement.executeUpdate();
-//                System.out.print("Course deleted");
-//            }
-//        }
-//        String InsertCourse = "insert into[JavaTraining].[dbo].[M2.Course] (CourseNo,CourseName,ProfessorName) VALUES (?,?,?)";
-//        for (CourseUI course : arrayCourse) {
-//            PreparedStatement insertCourseStatement = con.prepareStatement(InsertCourse);
-//            insertCourseStatement.setString(1, course.getCourseNo());
-//            insertCourseStatement.setString(2, course.getCourseName());
-//            insertCourseStatement.setString(3, course.getProfessor());
-//
-//            if (courseNumbers.contains(course.getCourseNo())) {
-//                continue;
-//            }
-//            insertCourseStatement.execute();
-//            System.out.println("Save");
-//        }
+        for (int i = 0; i < courseNumbers.size(); i++) {
+            contains = false;
+            for (int j = 0; j < arrayCourse.size(); j++) {
+                if (arrayCourse.get(j).getCourseNo().equals(courseNumbers.get(i))) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains) {
+                PreparedStatement deleteCourseStatement = con.prepareStatement(courseNoDelete);
+                deleteCourseStatement.setString(1, courseNumbers.get(i));
+                deleteCourseStatement.executeUpdate();
+                System.out.print("Course deleted");
+            }
+        }
+        String InsertCourse = "insert into[JavaTraining].[dbo].[M2.Course] (CourseNo,CourseName,ProfessorName) VALUES (?,?,?)";
+        for (CourseUI course : arrayCourse) {
+            PreparedStatement insertCourseStatement = con.prepareStatement(InsertCourse);
+            insertCourseStatement.setString(1, course.getCourseNo());
+            insertCourseStatement.setString(2, course.getCourseName());
+            insertCourseStatement.setString(3, course.getProfessor());
+
+            if (courseNumbers.contains(course.getCourseNo())) {
+                continue;
+            }
+            insertCourseStatement.execute();
+            System.out.println("Save");
+        }
     }
 
     public void disconnect() {
@@ -217,5 +217,21 @@ public class DbManager {
             studentList.add(newStudent);
         }
         return studentList;
+    }
+
+    public ArrayList<CourseUI> loadCourseDBData() throws SQLException {
+        connect();
+        String courseListSQLCommand = "select * from [JavaTraining].[dbo].[M2.Course]";
+        Statement courseListStmt = con.createStatement();
+        ResultSet courseListResultSet = courseListStmt.executeQuery(courseListSQLCommand);
+        ArrayList<CourseUI> courseList = new ArrayList<>();
+        while (courseListResultSet.next()) {
+            CourseUI newCourse = new CourseUI();
+            newCourse.setCourseNo(courseListResultSet.getString("courseNo"));
+            newCourse.setCourseName(courseListResultSet.getString("CourseName"));
+            newCourse.setProfessor(courseListResultSet.getString("ProfessorName"));
+            courseList.add(newCourse);
+        }
+        return courseList;
     }
 }

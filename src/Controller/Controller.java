@@ -24,4 +24,7 @@ public class Controller {
     public ArrayList<StudentUI> loadStudentDBData() throws SQLException {
         return this.db.loadStudentDBData();
     }
+    public ArrayList<CourseUI> loadCourseDBData() throws SQLException {
+        return this.db.loadCourseDBData();
+    }
 }

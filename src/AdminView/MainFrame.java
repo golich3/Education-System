@@ -96,6 +96,15 @@ public class MainFrame extends JFrame {
 		splitPane.setOneTouchExpandable(true);
 		tabedPanel.add("Course", splitPane);
 
+		try {
+			arrayCourse.addAll(controller.loadCourseDBData());
+			DataUtil.courseArray.addAll(arrayCourse);
+			courseTablePanel.setModelDataSourse(arrayCourse);
+			studentTablePanel.refreshTable();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		studentFormPanel.setiStudet(new IStudent() {
 			@Override
