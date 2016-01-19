@@ -55,6 +55,23 @@ public class ProfessorTableModel extends AbstractTableModel {
 		return null;
 	}
 
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		switch (columnIndex){
+			case 0:
+				return true;
+			case 1:
+				return true;
+			case 3:
+				return true;
+			case 4:
+				return true;
+			case 7:
+				return true;
+		}
+
+		return super.isCellEditable(rowIndex, columnIndex);
+	}
 
 	public void setDataset(ArrayList<ProfessorUI> arrayProfessor) {
 		this.arrayProfessor = arrayProfessor;
